@@ -1,11 +1,5 @@
-const fs = require("fs");
-const path = require("path");
 const process = require("process");
-
-// NOTE: Install dependencies with `npm i axios form-data tar`.
 const axios = require("axios");
-const FormData = require("form-data");
-const tar = require("tar");
 const toml = require('@iarna/toml');
 
 // NOTE: Provide your API key here.
@@ -43,42 +37,9 @@ async function pollForStatus(endpoint, timeout = 20 * 60) {
 
 async function main() {
   try {
-    // Create a tar archive of the circuit and upload via byte stream
-    // const circuitCWD = path.join( __dirname, "..", "circuit_database","circom");
-    // const circuitFilePath = "AgeVerification/"
-
-    // const uploadFormData = new FormData();
-    // uploadFormData.append(
-    //   "files",
-    //   tar.c({ gzip: true, sync: true, cwd: circuitCWD}, [circuitFilePath]).read(),
-    //   {
-    //     filename: "upload.tar.gz",
-    //   },
-    // );
-
-    // Create a new circuit.
-    // console.log("1. Creating circuit...");
-    // const createResponse = await axios.post(
-    //   API_URL + "/circuit/create",
-    //   uploadFormData,
-    //   {headers: headersJson, validateStatus: (status) => status === 201},
-    // );
-
     const circuitId = "e98c114f-6b0d-4fe0-9379-4ee91a1c6963";
-
-    // Poll the circuit detail endpoint until the compilation status is `Ready` or `Failed`.
-    const {
-      data: { status: compileStatus },
-    } = await pollForStatus(`/circuit/${circuitId}/detail`);
-
-    // Check for compilation issues.
-    if (compileStatus === "Failed") {
-      throw new Error("Circuit compilation failed.");
-    }
-    console.log("Circuit compilation succeeded!");
-
     // Initiate proof generation.
-    console.log("2. Proving circuit...");
+    console.log("Proving circuit...");
     const proofInput = toml.stringify({ input: 10 });
     const proveResponse = await axios.post(
       API_URL + `/circuit/${circuitId}/prove`,
