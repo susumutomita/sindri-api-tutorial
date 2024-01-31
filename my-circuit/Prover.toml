@@ -1,2 +1,6 @@
-X = 5
-Y = 5
+[circuit]
+file = "src/main.noir"
+
+[prover]
+security_level = "high"
+proof_type = "zk-SNARK"
