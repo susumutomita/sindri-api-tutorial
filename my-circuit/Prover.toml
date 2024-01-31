@@ -1,6 +1,1 @@
-[circuit]
-file = "src/main.noir"
-
-[prover]
-security_level = "high"
-proof_type = "zk-SNARK"
+input = "20"
